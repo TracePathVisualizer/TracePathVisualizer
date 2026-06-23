@@ -47,6 +47,7 @@ class Hop:
     city: str | None = None
     latitude: float | None = None
     longitude: float | None = None
+    anycast: bool = False
     
     @property
     def average_latency(self) -> float | None:

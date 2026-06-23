@@ -166,13 +166,53 @@ def infer_silent_nodes(hops: list[Hop]) -> None:
 
 
 # ==================================================
-# Anycast Location Inference (test on ipinfo.io trace)
+# Anycast Location Inference
 # ==================================================
-# If hop.anycast is true:
-#    find previous responsive hop with city/country
-#    if latency increase is small:
-#        copy previous city/country
-# --------------------------------------------------
+
+# NOTE:
+# This is a basic first-pass anycast inference engine.
+# It is intended only to detect obvious cases where an
+# anycast endpoint's reported geolocation is inconsistent
+# with the observed latency profile.
+#
+# Current logic uses a simple latency tolerance threshold
+# and should be considered indicative only.
+#
+# Future versions should incorporate regional latency
+# models, country proximity, submarine cable routes,
+# and additional path-analysis heuristics.
+
+def infer_anycast_locations(hops: list[Hop]) -> None:
+    latency_tolerance_ms = 10
+
+    for index, hop in enumerate(hops):
+        if not hop.anycast:
+            continue
+
+        if hop.average_latency is None:
+            continue
+
+        previous_hop = None
+
+        for i in range(index - 1, -1, -1):
+            if (
+                hops[i].ip
+                and hops[i].average_latency is not None
+                and hops[i].city
+                and hops[i].country
+            ):
+                previous_hop = hops[i]
+                break
+
+        if not previous_hop:
+            continue
+
+        latency_jump = hop.average_latency - previous_hop.average_latency
+
+        if latency_jump <= latency_tolerance_ms:
+            hop.city = previous_hop.city
+            hop.country = previous_hop.country
+
 
 # ==================================================
 # Hop Enrichment
@@ -203,7 +243,9 @@ def enrich_hops(hops: list[Hop]) -> list[Hop]:
         hop.city = data.get("city")
         hop.latitude = latitude
         hop.longitude = longitude
+        hop.anycast = bool(data.get("anycast"))
     
+    infer_anycast_locations(hops)
     infer_silent_nodes(hops)
     
     return hops
