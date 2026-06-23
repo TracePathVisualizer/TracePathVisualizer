@@ -1,6 +1,6 @@
 # TracePathVisualizer (TPV)
 
-**Project Status:** Active Development – CLI V1.0.0
+**Project Status:** Active Development – CLI V1.0.0 (Release Coming Soon))
 
 TracePathVisualizer (TPV) is an open-source network path analysis and visualisation utility for Windows.
 
