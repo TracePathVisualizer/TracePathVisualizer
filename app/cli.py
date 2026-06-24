@@ -207,6 +207,7 @@ def run_cli() -> None:
         elif stage.name == "complete":
             final_result = stage.data
             print_section("Network Path")
+            print()
             print_route_map(final_result)
 
     if final_result is None:
