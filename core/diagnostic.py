@@ -9,7 +9,13 @@ from core.models import DiagnosticResult, DnsResult, LocalEndpoint, PingResult, 
 from core.ping import run_ping
 from core.dns import resolve_dns
 from core.traceroute import run_traceroute_live
-from core.enrichment import enrich_hops, get_local_endpoint
+from core.enrichment import (
+    enrich_hops,
+    enrich_live_hop,
+    get_local_endpoint,
+    infer_anycast_locations,
+    infer_silent_nodes,
+)
 
 
 # ==================================================
@@ -62,14 +68,24 @@ def run_diagnostic_steps(target: str) -> Generator[DiagnosticStage, None, Diagno
     yield DiagnosticStage(name="traceroute_started")
 
     trace_runner = run_traceroute_live(target)
+    live_hops = []
 
     try:
         while True:
             hop = next(trace_runner)
+
+            hop = enrich_live_hop(hop, live_hops)
+
+            live_hops.append(hop)
+
+            infer_anycast_locations(live_hops)
+            infer_silent_nodes(live_hops)
+
             yield DiagnosticStage(name="traceroute_hop", data=hop)
 
     except StopIteration as finished:
         trace_result = finished.value
+        trace_result.hops = live_hops
 
     yield DiagnosticStage(name="traceroute_complete", data=trace_result)
 

@@ -218,34 +218,50 @@ def infer_anycast_locations(hops: list[Hop]) -> None:
 # Hop Enrichment
 # ==================================================
 
+def enrich_live_hop(hop: Hop, previous_hops: list[Hop]) -> Hop:
+    """
+    Enrich a single hop as it is discovered.
+
+    Used by live traceroute output and future GUI map updates.
+    Path-wide inference is handled separately after each hop is added
+    to the current hop list.
+    """
+    hop.assessment = assess_hop(hop, previous_hops + [hop])
+
+    if not hop.ip:
+        return hop
+
+    if not is_public_ip(hop.ip):
+        return hop
+
+    data = get_ipinfo(hop.ip)
+
+    latitude, longitude = parse_location(data.get("loc"))
+    owner = data.get("org") or infer_owner_from_hostname(hop.hostname)
+
+    hop.asn = owner
+    hop.isp = owner
+    hop.country = data.get("country")
+    hop.city = data.get("city")
+    hop.latitude = latitude
+    hop.longitude = longitude
+    hop.anycast = bool(data.get("anycast"))
+
+    return hop
+
+
 def enrich_hops(hops: list[Hop]) -> list[Hop]:
+    """
+    Final path cleanup.
+
+    By this point, live hops should already have IPinfo enrichment.
+    This function only applies route-wide inference that benefits from
+    seeing the full known path.
+    """
     for hop in hops:
         hop.assessment = assess_hop(hop, hops)
 
-        if not hop.ip:
-            continue
-
-        if not is_public_ip(hop.ip):
-            continue
-
-        data = get_ipinfo(hop.ip)
-
-        latitude, longitude = parse_location(data.get("loc"))
-
-        owner = data.get("org")
-
-        if not owner:
-            owner = infer_owner_from_hostname(hop.hostname)
-
-        hop.asn = owner
-        hop.isp = owner
-        hop.country = data.get("country")
-        hop.city = data.get("city")
-        hop.latitude = latitude
-        hop.longitude = longitude
-        hop.anycast = bool(data.get("anycast"))
-    
     infer_anycast_locations(hops)
     infer_silent_nodes(hops)
-    
+
     return hops

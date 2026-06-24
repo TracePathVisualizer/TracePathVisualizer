@@ -59,29 +59,31 @@ def print_ping(ping) -> None:
 # ==================================================
 
 def print_traceroute_header() -> None:
-    
     print(
         f"{'Hop':<5}"
         f"{'Probe 1':<12}"
         f"{'Probe 2':<12}"
         f"{'Probe 3':<15}"
-        f"{'IP':<25}"
-        f"{'Assessment'}"
+        f"{'IP':<20}"
+        f"{'Assessment':<20}"
+        f"{'Routing Type'}"
     )
-    print("-" * 90)
+    print("-" * 100)
 
 
 def print_traceroute_hop(hop) -> None:
+    routing_type = "AnyCast" if hop.anycast else "Standard"
+
     print(
         f"{hop.hop:<5}"
         f"{format_probe(hop.probe1):<12}"
         f"{format_probe(hop.probe2):<12}"
         f"{format_probe(hop.probe3):<15}"
-        f"{(hop.ip or ''):<25}"
-        f"{hop.assessment or ''}",
+        f"{(hop.ip or ''):<20}"
+        f"{(hop.assessment or ''):<20}"
+        f"{routing_type}",
         flush=True
     )
-
 
 # ==================================================
 # Network Path Output
@@ -197,11 +199,14 @@ def run_cli() -> None:
             pass
 
         elif stage.name == "enrichment_started":
-            print_section("Network Path")
-            print(stage.message, flush=True)
-        
+            pass
+
+        elif stage.name == "enrichment_complete":
+            pass
+
         elif stage.name == "complete":
             final_result = stage.data
+            print_section("Network Path")
             print_route_map(final_result)
 
     if final_result is None:
