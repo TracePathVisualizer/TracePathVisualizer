@@ -3,6 +3,7 @@
 # Licensed under the MIT License
 
 from core.diagnostic import run_diagnostic_steps
+from core.targets import normalize_target
 
 
 # ==================================================
@@ -150,15 +151,19 @@ def print_route_map(result) -> None:
 def run_cli() -> None:
     print_header()
 
-    target = input("\nEnter target host or IP: ").strip()
+    raw_target = input("\nEnter target host, IP, or URL: ").strip()
+    target = normalize_target(raw_target)
 
-    if not target:
+    if not raw_target:
         print()
         print("No target entered. Exiting.")
         return
 
     print()
-    print(f"Target: {target}")
+    print(f"Target: {raw_target}")
+
+    if target != raw_target:
+        print(f"Using host: {target}")
 
     final_result = None
 
