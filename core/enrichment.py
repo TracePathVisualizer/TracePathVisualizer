@@ -222,11 +222,22 @@ def enrich_live_hop(hop: Hop, previous_hops: list[Hop]) -> Hop:
     """
     Enrich a single hop as it is discovered.
 
-    Used by live traceroute output and future GUI map updates.
-    Path-wide inference is handled separately after each hop is added
-    to the current hop list.
+    Live output only reports probe response quality.
+    Final path interpretation is handled later by enrich_hops().
     """
-    hop.assessment = assess_hop(hop, previous_hops + [hop])
+    responses = sum(
+        1 for probe in [hop.probe1, hop.probe2, hop.probe3]
+        if probe is not None
+    )
+
+    if responses == 3:
+        hop.assessment = "Responsive"
+    elif responses == 2:
+        hop.assessment = "Partially Responsive"
+    elif responses == 1:
+        hop.assessment = "Minimally Responsive"
+    else:
+        hop.assessment = "Unresponsive"
 
     if not hop.ip:
         return hop

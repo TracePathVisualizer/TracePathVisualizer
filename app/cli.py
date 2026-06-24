@@ -65,10 +65,10 @@ def print_traceroute_header() -> None:
         f"{'Probe 2':<12}"
         f"{'Probe 3':<15}"
         f"{'IP':<20}"
-        f"{'Assessment':<20}"
+        f"{'Assessment':<30}"
         f"{'Routing Type'}"
     )
-    print("-" * 100)
+    print("-" * 125)
 
 
 def print_traceroute_hop(hop) -> None:
@@ -80,7 +80,7 @@ def print_traceroute_hop(hop) -> None:
         f"{format_probe(hop.probe2):<12}"
         f"{format_probe(hop.probe3):<15}"
         f"{(hop.ip or ''):<20}"
-        f"{(hop.assessment or ''):<20}"
+        f"{(hop.assessment or ''):<30}"
         f"{routing_type}",
         flush=True
     )
