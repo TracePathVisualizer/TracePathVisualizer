@@ -64,7 +64,7 @@ py -m venv .venv
 
 ```powershell
 py -m pip install --upgrade pip
-py -m pip install pyinstaller
+py -m pip install -r requirements-build.txt
 ```
 
 ### Build Executable
