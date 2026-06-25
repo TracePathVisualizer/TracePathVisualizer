@@ -213,3 +213,7 @@ def run_cli() -> None:
     if final_result is None:
         print()
         print("Diagnostic did not complete.")
+    try:
+        input("\nPress Enter to exit...")
+    except EOFError:
+        pass
