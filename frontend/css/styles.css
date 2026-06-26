@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    background: #07111f;
+    color: #e8f0ff;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    padding: 40px;
+}
+
+button {
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+pre {
+    margin-top: 24px;
+    padding: 16px;
+    background: #101c2f;
+    border-radius: 8px;
+}
