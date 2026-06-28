@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- ==================================================
+     Head
+================================================== -->
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TracePathVisualizer</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="../frontend/leaflet/leaflet.css">
+
+    <!-- TPV CSS -->
     <link rel="stylesheet" href="../frontend/css/styles.css">
 </head>
+
+<!-- ==================================================
+     Application
+================================================== -->
+
 <body>
+
     <main class="app">
-        <h1>TracePathVisualizer</h1>
-        <p>Desktop GUI bridge test</p>
 
-        <button id="backend-test-button">Test Python Backend</button>
+        <!-- ==============================================
+             Sidebar
+        =============================================== -->
 
-        <pre id="output">Waiting...</pre>
+        <aside class="sidebar">
+
+            <h1>TracePathVisualizer</h1>
+
+            <nav>
+                <button>Dashboard</button>
+                <button>Live Trace</button>
+                <button>History</button>
+                <button>Settings</button>
+            </nav>
+
+        </aside>
+
+        <!-- ==============================================
+             Main Content
+        =============================================== -->
+
+        <section class="content">
+
+            <!-- ==========================================
+                 Map
+            =========================================== -->
+
+            <div id="map"></div>
+
+        </section>
+
     </main>
 
+    <!-- ==================================================
+         JavaScript
+    ================================================== -->
+
+    <!-- Leaflet JS -->
+    <script src="../frontend/leaflet/leaflet.js"></script>
+
+    <!-- TPV JS -->
+    <script src="../frontend/js/map.js"></script>
     <script src="../frontend/js/app.js"></script>
+
 </body>
+
 </html>

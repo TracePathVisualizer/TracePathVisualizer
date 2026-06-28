@@ -1,13 +1,25 @@
-const output = document.getElementById("output");
-const button = document.getElementById("backend-test-button");
+// ==================================================
+// TracePathVisualizer (TPV)
+// Copyright (c) 2026 NoF8
+// Licensed under the MIT License
+// ==================================================
 
-button.addEventListener("click", async () => {
-    output.textContent = "Calling Python backend...";
 
-    try {
-        const result = await window.pywebview.api.ping_backend();
-        output.textContent = JSON.stringify(result, null, 2);
-    } catch (error) {
-        output.textContent = `Backend call failed:\n${error}`;
-    }
-});
+// ==================================================
+// Application Initialisation
+// ==================================================
+
+document.addEventListener("DOMContentLoaded", initialiseApplication);
+
+
+// ==================================================
+// Initialise Application
+// ==================================================
+
+function initialiseApplication() {
+
+    console.log("TracePathVisualizer GUI initialised.");
+
+    initialiseMap();
+
+}

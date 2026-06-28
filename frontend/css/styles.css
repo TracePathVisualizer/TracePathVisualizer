@@ -1,24 +1,112 @@
+/* ==================================================
+   TracePathVisualizer (TPV)
+   Copyright (c) 2026 NoF8
+   Licensed under the MIT License
+================================================== */
+
+
+/* ==================================================
+   Global Layout
+================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
+    width: 100%;
+    height: 100%;
     margin: 0;
+    overflow: hidden;
     background: #07111f;
     color: #e8f0ff;
     font-family: Arial, sans-serif;
 }
 
-.app {
-    padding: 40px;
+body {
+    user-select: none;
 }
 
-button {
-    padding: 12px 18px;
+
+/* ==================================================
+   Application Shell
+================================================== */
+
+.app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+/* ==================================================
+   Sidebar
+================================================== */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 18px;
+    background: #081522;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar h1 {
+    margin: 0 0 32px 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 12px 14px;
     border: 0;
     border-radius: 8px;
+    background: transparent;
+    color: #b8c7dc;
+    font-size: 14px;
+    text-align: left;
     cursor: pointer;
 }
 
-pre {
-    margin-top: 24px;
-    padding: 16px;
-    background: #101c2f;
-    border-radius: 8px;
+.sidebar button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.sidebar button:first-child {
+    background: rgba(76, 201, 240, 0.14);
+    color: #ffffff;
+}
+
+
+/* ==================================================
+   Main Content
+================================================== */
+
+.content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #07111f;
+}
+
+
+/* ==================================================
+   Map
+================================================== */
+
+#map {
+    width: 100%;
+    height: 100%;
+    background: #07111f;
 }
