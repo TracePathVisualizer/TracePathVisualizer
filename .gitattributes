@@ -1,0 +1,7 @@
+# Count TPV application source files in GitHub language stats
+frontend/css/** linguist-detectable=true
+frontend/js/** linguist-detectable=true
+ui/** linguist-detectable=true
+
+# Keep third-party Leaflet counted as vendored/excluded
+frontend/leaflet/** linguist-vendored=true
