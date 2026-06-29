@@ -1,3 +1,9 @@
+<!-- 
+TracePathVisualizer (TPV)
+Copyright (c) 2026 NoF8
+Licensed under the MIT License
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,12 +40,30 @@
 
             <h1>TracePathVisualizer</h1>
 
+            <!-- ==========================================
+                 Navigation
+            =========================================== -->
+
             <nav>
                 <button>Dashboard</button>
                 <button>Live Trace</button>
                 <button>History</button>
                 <button>Settings</button>
             </nav>
+
+            <!-- ==========================================
+                 Map Theme Selector
+            =========================================== -->
+
+            <div class="theme-selector">
+                <label for="map-theme-select">Map Theme</label>
+
+                <select id="map-theme-select">
+                    <option value="esriDarkGray">Dark Gray</option>
+                    <option value="esriLightGray">Light Gray</option>
+                    <option value="esriOcean">Ocean</option>
+                </select>
+            </div>
 
         </aside>
 
